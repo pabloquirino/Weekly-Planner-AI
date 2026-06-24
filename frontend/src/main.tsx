@@ -2,21 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
+import { App } from "./App";
 
 const queryClient = new QueryClient();
-
-const theme = createTheme({
-  palette: { mode: "light" },
-});
-
-function App() {
-  return (
-    <div style={{ padding: 32 }}>
-      <h1>Weekly Planner AI 🚀</h1>
-      <p>Infraestrutura rodando com sucesso.</p>
-    </div>
-  );
-}
+const theme = createTheme({ palette: { mode: "light" } });
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
