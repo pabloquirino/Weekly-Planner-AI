@@ -6,8 +6,12 @@ import { DAY_LABELS } from "../../types";
 import { TaskCard } from "./TaskCard";
 import { TaskFormDialog } from "../TaskFormDialog";
 import {
-  useCompleteTask, useCreateTask, useDeleteTask,
-  useDuplicateTask, useUncompleteTask, useUpdateTask,
+  useCompleteTask,
+  useCreateTask,
+  useDeleteTask,
+  useDuplicateTask,
+  useUncompleteTask,
+  useUpdateTask,
 } from "../../hooks/useTasks";
 
 interface Props {
@@ -27,11 +31,13 @@ export function DayColumn({ day, week }: Props) {
   const duplicateTask = useDuplicateTask(week.id);
   const deleteTask = useDeleteTask(week.id);
 
+  const completedCount = tasks.filter((t) => t.is_completed).length;
+
   return (
     <Box
       sx={{
         flex: 1,
-        minWidth: 180,
+        minWidth: 185,
         bgcolor: "background.default",
         borderRadius: 2,
         p: 1.5,
@@ -39,12 +45,14 @@ export function DayColumn({ day, week }: Props) {
         borderColor: "divider",
       }}
     >
-      <Typography variant="subtitle2" fontWeight={700} mb={1}>
+      <Typography variant="subtitle2" fontWeight={700} mb={0.5}>
         {DAY_LABELS[day]}
-        <Typography component="span" variant="caption" color="text.secondary" ml={1}>
-          {tasks.length} tarefa{tasks.length !== 1 ? "s" : ""}
-        </Typography>
       </Typography>
+
+      <Typography variant="caption" color="text.secondary" display="block" mb={1}>
+        {completedCount}/{tasks.length} concluída{tasks.length !== 1 ? "s" : ""}
+      </Typography>
+
       <Divider sx={{ mb: 1 }} />
 
       <Stack spacing={1}>
@@ -52,11 +60,16 @@ export function DayColumn({ day, week }: Props) {
           <TaskCard
             key={task.id}
             task={task}
-            onComplete={() => completeTask.mutate({ taskId: task.id })}
+            onComplete={(notes) =>
+              completeTask.mutate({ taskId: task.id, notes: notes || undefined })
+            }
             onUncomplete={() => uncompleteTask.mutate(task.id)}
             onEdit={() => setEditTask(task)}
             onDuplicate={() => duplicateTask.mutate(task.id)}
             onDelete={() => deleteTask.mutate(task.id)}
+            onUpdateNotes={(notes) =>
+              updateTask.mutate({ taskId: task.id, data: { learning_notes: notes } })
+            }
           />
         ))}
       </Stack>
@@ -83,7 +96,9 @@ export function DayColumn({ day, week }: Props) {
           open={!!editTask}
           onClose={() => setEditTask(null)}
           task={editTask}
-          onSubmit={(v) => updateTask.mutate({ taskId: editTask.id, data: v })}
+          onSubmit={(v) =>
+            updateTask.mutate({ taskId: editTask.id, data: v })
+          }
         />
       )}
     </Box>
