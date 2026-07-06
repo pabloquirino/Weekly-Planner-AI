@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { Week, Task, DashboardData } from "../types";
+import type { WeeklyAnalysis } from "../types";
 
 const http = axios.create({ baseURL: "/api/v1" });
 
@@ -57,4 +58,11 @@ export const tasksApi = {
 export const dashboardApi = {
   get: (weekId: number) =>
     http.get<DashboardData>(`/dashboard/${weekId}`).then((r) => r.data),
+};
+
+export const analysisApi = {
+  get: (weekId: number) =>
+    http.get<WeeklyAnalysis>(`/weeks/${weekId}/analysis`).then((r) => r.data),
+  generate: (weekId: number) =>
+    http.post<WeeklyAnalysis>(`/weeks/${weekId}/analysis/generate`).then((r) => r.data),
 };

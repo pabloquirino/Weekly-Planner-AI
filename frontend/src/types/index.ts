@@ -70,3 +70,15 @@ export interface DashboardData {
   by_day: DayStats[];
   history: WeekHistory[];
 }
+
+export interface WeeklyAnalysis {
+  id: number;
+  week_id: number;
+  summary: string;
+  strengths: string[];
+  weaknesses: string[];
+  suggestions: string[];
+  skills_breakdown: Record<string, number>;
+  next_steps: string[];
+  generated_at: string;
+}

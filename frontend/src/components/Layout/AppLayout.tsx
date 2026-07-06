@@ -6,13 +6,15 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import HistoryIcon from "@mui/icons-material/History";
 import { Link, useLocation } from "react-router-dom";
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 
 const DRAWER_WIDTH = 220;
 
 const NAV = [
-  { label: "Planner", icon: <CalendarMonthIcon />, to: "/" },
-  { label: "Dashboard", icon: <BarChartIcon />, to: "/dashboard" },
-  { label: "Histórico", icon: <HistoryIcon />, to: "/history" },
+  { label: "Planner",   icon: <CalendarMonthIcon />, to: "/" },
+  { label: "Dashboard", icon: <BarChartIcon />,      to: "/dashboard" },
+  { label: "Insights",  icon: <AutoAwesomeIcon />,   to: "/insights" },
+  { label: "Histórico", icon: <HistoryIcon />,       to: "/history" },
 ];
 
 export function AppLayout({ children }: { children: React.ReactNode }) {

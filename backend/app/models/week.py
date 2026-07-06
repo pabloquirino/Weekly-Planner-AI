@@ -3,12 +3,12 @@ from enum import Enum as PyEnum
 
 from sqlalchemy import (
     Integer, String, Text, Boolean,
-    DateTime, Date, ForeignKey, Enum
+    DateTime, Date, ForeignKey, Enum, JSON
 )
+
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.database import Base
-
 
 class DayOfWeek(str, PyEnum):
     MONDAY = "monday"
@@ -45,3 +45,20 @@ class Task(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
     week: Mapped["Week"] = relationship("Week", back_populates="tasks")
+
+    from sqlalchemy import JSON
+
+class WeeklyAnalysis(Base):
+    __tablename__ = "weekly_analyses"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    week_id: Mapped[int] = mapped_column(Integer, ForeignKey("weeks.id"), unique=True, nullable=False)
+    summary: Mapped[str] = mapped_column(Text, nullable=False)
+    strengths: Mapped[list] = mapped_column(JSON, nullable=False, default=list)
+    weaknesses: Mapped[list] = mapped_column(JSON, nullable=False, default=list)
+    suggestions: Mapped[list] = mapped_column(JSON, nullable=False, default=list)
+    skills_breakdown: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
+    next_steps: Mapped[list] = mapped_column(JSON, nullable=False, default=list)
+    generated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+    week: Mapped["Week"] = relationship("Week", backref="analysis")

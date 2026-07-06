@@ -1,1 +1,1 @@
-from app.repositories import week, task
+from app.repositories import week, task, analysis
