@@ -57,7 +57,7 @@ export function WeekPlannerPage() {
   }
 
   return (
-    <Box>
+    <Box sx={{ width: "100%" }}>
       <Stack direction="row" alignItems="center" spacing={2} mb={3} flexWrap="wrap">
         <Typography variant="h5" fontWeight={700}>Planejamento Semanal</Typography>
 
@@ -96,7 +96,7 @@ export function WeekPlannerPage() {
       {loadingWeek || !week ? (
         <LoadingSpinner />
       ) : (
-        <Stack direction="row" spacing={2} sx={{ overflowX: "auto", pb: 2 }}>
+        <Stack direction="row" spacing={2.5} sx={{ overflowX: "auto", pb: 2, width: "100%" }}>
           {DAYS.map((day) => (
             <DayColumn key={day} day={day} week={week} />
           ))}

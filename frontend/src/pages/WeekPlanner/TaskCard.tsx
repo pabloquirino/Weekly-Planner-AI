@@ -35,6 +35,7 @@ export function TaskCard({
   onDelete,
   onUpdateNotes,
 }: Props) {
+  const [hovered, setHovered] = useState(false);
   const [learningOpen, setLearningOpen] = useState(false);
   const [learningMode, setLearningMode] = useState<"complete" | "edit">("complete");
 
@@ -62,9 +63,19 @@ export function TaskCard({
 
   return (
     <>
-      <Card variant="outlined" sx={{ opacity: task.is_completed ? 0.75 : 1 }}>
-        <CardContent sx={{ p: 1.5, "&:last-child": { pb: 1.5 } }}>
-          <Stack direction="row" alignItems="flex-start" spacing={1}>
+      <Card
+        variant="outlined"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        sx={{
+          opacity: task.is_completed ? 0.75 : 1,
+          position: "relative",
+          transition: "box-shadow 0.15s",
+          "&:hover": { boxShadow: 2 },
+        }}
+      >
+        <CardContent sx={{ p: 2, "&:last-child": { pb: 2 } }}>
+          <Stack direction="row" alignItems="flex-start" spacing={1.5}>
             <Checkbox
               checked={task.is_completed}
               onChange={handleCheckbox}
@@ -72,11 +83,15 @@ export function TaskCard({
               sx={{ mt: -0.5 }}
             />
 
-            <Stack flexGrow={1} spacing={0.5}>
+            <Stack flexGrow={1} spacing={0.75}>
               <Typography
                 variant="body2"
                 fontWeight={500}
-                sx={{ textDecoration: task.is_completed ? "line-through" : "none" }}
+                sx={{
+                  textDecoration: task.is_completed ? "line-through" : "none",
+                  pr: hovered ? 7 : 0, // reserva espaço para os ícones não sobrepor o texto
+                  transition: "padding 0.1s",
+                }}
               >
                 {task.title}
               </Typography>
@@ -99,26 +114,40 @@ export function TaskCard({
                 />
               )}
             </Stack>
-
-            <Stack direction="row">
-              <Tooltip title="Editar">
-                <IconButton size="small" onClick={onEdit}>
-                  <EditIcon fontSize="inherit" />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Duplicar">
-                <IconButton size="small" onClick={onDuplicate}>
-                  <ContentCopyIcon fontSize="inherit" />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Excluir">
-                <IconButton size="small" color="error" onClick={onDelete}>
-                  <DeleteIcon fontSize="inherit" />
-                </IconButton>
-              </Tooltip>
-            </Stack>
           </Stack>
         </CardContent>
+
+        {/* Ações aparecem só no hover, posicionadas no canto superior direito */}
+        {hovered && (
+          <Stack
+            direction="row"
+            sx={{
+              position: "absolute",
+              top: 6,
+              right: 6,
+              bgcolor: "background.paper",
+              borderRadius: 1,
+              boxShadow: 1,
+              px: 0.5,
+            }}
+          >
+            <Tooltip title="Editar">
+              <IconButton size="small" onClick={onEdit}>
+                <EditIcon fontSize="inherit" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Duplicar">
+              <IconButton size="small" onClick={onDuplicate}>
+                <ContentCopyIcon fontSize="inherit" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Excluir">
+              <IconButton size="small" color="error" onClick={onDelete}>
+                <DeleteIcon fontSize="inherit" />
+              </IconButton>
+            </Tooltip>
+          </Stack>
+        )}
       </Card>
 
       <LearningDialog

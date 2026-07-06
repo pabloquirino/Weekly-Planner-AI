@@ -55,7 +55,13 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         </List>
       </Drawer>
 
-      <Box component="main" sx={{ flexGrow: 1, p: 3, ml: `${DRAWER_WIDTH}px` }}>
+      <Box component="main"
+        sx={{
+          flexGrow: 1,
+          width: `calc(100% - ${DRAWER_WIDTH}px)`,
+          px: 3,
+          py: 3,
+        }}>
         <Toolbar />
         {children}
       </Box>

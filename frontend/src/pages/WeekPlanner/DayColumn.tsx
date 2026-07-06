@@ -36,11 +36,11 @@ export function DayColumn({ day, week }: Props) {
   return (
     <Box
       sx={{
-        flex: 1,
-        minWidth: 185,
+        flex: "1 1 0",
+        minWidth: 240,
         bgcolor: "background.default",
         borderRadius: 2,
-        p: 1.5,
+        p: 2,
         border: "1px solid",
         borderColor: "divider",
       }}

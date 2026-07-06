@@ -47,3 +47,26 @@ export interface WeekSummary {
   end_date: string;
   created_at: string;
 }
+
+export interface DayStats {
+  day: string;
+  total: number;
+  completed: number;
+}
+
+export interface WeekHistory {
+  week_id: number;
+  start_date: string;
+  completion_rate: number;
+  total: number;
+  completed: number;
+}
+
+export interface DashboardData {
+  total_tasks: number;
+  completed_tasks: number;
+  pending_tasks: number;
+  completion_rate: number;
+  by_day: DayStats[];
+  history: WeekHistory[];
+}

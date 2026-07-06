@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { Week, Task } from "../types";
+import type { Week, Task, DashboardData } from "../types";
 
 const http = axios.create({ baseURL: "/api/v1" });
 
@@ -52,4 +52,9 @@ export const tasksApi = {
 
   delete: (weekId: number, taskId: number) =>
     http.delete(`/weeks/${weekId}/tasks/${taskId}`),
+};
+
+export const dashboardApi = {
+  get: (weekId: number) =>
+    http.get<DashboardData>(`/dashboard/${weekId}`).then((r) => r.data),
 };
