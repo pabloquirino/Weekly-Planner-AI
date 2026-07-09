@@ -1,6 +1,7 @@
 import axios from "axios";
 import type { Week, Task, DashboardData } from "../types";
 import type { WeeklyAnalysis } from "../types";
+import type { HistoryResponse } from "../types";
 
 const http = axios.create({ baseURL: "/api/v1" });
 
@@ -65,4 +66,20 @@ export const analysisApi = {
     http.get<WeeklyAnalysis>(`/weeks/${weekId}/analysis`).then((r) => r.data),
   generate: (weekId: number) =>
     http.post<WeeklyAnalysis>(`/weeks/${weekId}/analysis/generate`).then((r) => r.data),
+};
+
+export const historyApi = {
+  get: (params?: {
+    preset?: string;
+    start_date?: string;
+    end_date?: string;
+  }) => {
+    const query = new URLSearchParams();
+    if (params?.preset) query.set("preset", params.preset);
+    if (params?.start_date) query.set("start_date", params.start_date);
+    if (params?.end_date) query.set("end_date", params.end_date);
+    return http
+      .get<HistoryResponse>(`/history/?${query.toString()}`)
+      .then((r) => r.data);
+  },
 };

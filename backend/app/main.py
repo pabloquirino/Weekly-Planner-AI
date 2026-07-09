@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
 from app.api.health import router as health_router
 from app.api.weeks import router as weeks_router
 from app.api.tasks import router as tasks_router
 from app.api.dashboard import router as dashboard_router
 from app.api.analysis import router as analysis_router
+from app.api.history import router as history_router
 
 app = FastAPI(
     title="Weekly Planner AI",
@@ -26,6 +26,7 @@ app.include_router(weeks_router, prefix="/api/v1")
 app.include_router(tasks_router, prefix="/api/v1")
 app.include_router(dashboard_router, prefix="/api/v1")
 app.include_router(analysis_router, prefix="/api/v1")
+app.include_router(history_router, prefix="/api/v1")
 
 
 @app.get("/", include_in_schema=False)

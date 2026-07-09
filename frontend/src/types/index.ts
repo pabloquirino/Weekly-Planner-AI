@@ -82,3 +82,35 @@ export interface WeeklyAnalysis {
   next_steps: string[];
   generated_at: string;
 }
+
+export interface TaskHistory {
+  id: number;
+  day_of_week: string;
+  title: string;
+  description: string | null;
+  is_completed: boolean;
+  completed_at: string | null;
+  learning_notes: string | null;
+}
+
+export interface AnalysisSummary {
+  summary: string;
+  generated_at: string;
+}
+
+export interface WeekHistoryItem {
+  id: number;
+  start_date: string;
+  end_date: string;
+  created_at: string;
+  total_tasks: number;
+  completed_tasks: number;
+  completion_rate: number;
+  tasks: TaskHistory[];
+  analysis: AnalysisSummary | null;
+}
+
+export interface HistoryResponse {
+  weeks: WeekHistoryItem[];
+  total: number;
+}
