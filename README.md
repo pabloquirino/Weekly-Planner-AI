@@ -9,13 +9,25 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?logo=postgresql)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker)
 
----
-
 ## Sobre o projeto
 
 O Weekly Planner AI não é um simples gerenciador de tarefas. É uma ferramenta de evolução pessoal que transforma o que você fez e aprendeu durante a semana em análises inteligentes geradas por IA — com pontos fortes, pontos de atenção, sugestões práticas e um mapa das habilidades que você está desenvolvendo.
 
-### Funcionalidades
+## Screenshots
+
+> *Adicione aqui prints da aplicação para dar contexto visual ao projeto.*
+
+| Dashboard | Weekly Insights |
+|---|---|
+| ![Dashboard](./docs/screenshots/dashboard.png) | ![Insights](./docs/screenshots/insights.png) |
+
+| Planejamento semanal | Histórico |
+|---|---|
+| ![Planejamento](./docs/screenshots/planning.png) | ![Histórico](./docs/screenshots/history.png) |
+
+*(Salve as imagens em `docs/screenshots/` com esses nomes, ou ajuste os caminhos acima conforme os arquivos que você adicionar.)*
+
+## Funcionalidades
 
 - **Planejamento semanal** — organize tarefas de segunda a sexta com título, descrição e dia da semana
 - **Execução e aprendizados** — marque tarefas como concluídas e registre o que aprendeu em cada uma
@@ -24,18 +36,16 @@ O Weekly Planner AI não é um simples gerenciador de tarefas. É uma ferramenta
 - **Histórico** — navegue por semanas anteriores com filtros de período e visualize tarefas e aprendizados
 - **Tema claro e escuro** — alternância com persistência de preferência
 
----
-
 ## Stack
 
-### Backend
+**Backend**
 - Python 3.12 + FastAPI
 - SQLAlchemy 2.0 + Alembic
 - PostgreSQL 16
 - OpenAI SDK (gpt-4o-mini)
 - Pydantic v2
 
-### Frontend
+**Frontend**
 - React 19 + TypeScript + Vite
 - Material UI v5
 - TanStack Query (React Query)
@@ -43,37 +53,49 @@ O Weekly Planner AI não é um simples gerenciador de tarefas. É uma ferramenta
 - React Hook Form
 - Recharts
 
-### Infraestrutura
+**Infraestrutura**
 - Docker + Docker Compose
-- 3 containers: `backend`, `frontend`, `db`
+- 3 containers: backend, frontend, db
 
----
+## Como rodar localmente
 
-## Pré-requisitos
+Este projeto roda inteiramente em containers Docker, então você **não precisa instalar Python, Node ou PostgreSQL na sua máquina** — só precisa do Docker. Você também vai precisar de um editor de código (como o [VS Code](https://code.visualstudio.com/)) apenas para abrir a pasta do projeto e editar o arquivo `.env` com suas credenciais antes de subir os containers.
 
-- [Docker](https://www.docker.com/) e Docker Compose instalados
-- Chave de API da [OpenAI](https://platform.openai.com/api-keys)
+### Pré-requisitos
 
----
+1. **[Docker Desktop](https://www.docker.com/products/docker-desktop/)** instalado e em execução (já inclui o Docker Compose).
+2. **Um editor de código**, como o [VS Code](https://code.visualstudio.com/) — usado só para editar o arquivo `.env`.
+3. **Git** instalado, para clonar o repositório (ou você pode baixar o `.zip` do projeto direto do GitHub).
+4. **Uma chave de API da OpenAI** ([platform.openai.com](https://platform.openai.com/api-keys)) — necessária apenas para a funcionalidade de Weekly Insights.
 
-## Instalação e execução
+### Passo a passo
 
-### 1. Clone o repositório
+**1. Clone o repositório**
+
+Abra um terminal e rode:
 
 ```bash
 git clone https://github.com/SEU_USUARIO/weekly-planner.git
 cd weekly-planner
 ```
 
-### 2. Configure as variáveis de ambiente
+**2. Abra a pasta no seu editor de código**
 
-Copie o arquivo de exemplo e preencha com suas credenciais:
+```bash
+code .
+```
+
+(Isso abre a pasta do projeto no VS Code. Se preferir, pode abrir manualmente pelo editor de sua escolha.)
+
+**3. Configure as variáveis de ambiente**
+
+No terminal, copie o arquivo de exemplo:
 
 ```bash
 cp .env.example .env
 ```
 
-Edite o `.env`:
+Agora, no editor de código, abra o arquivo `.env` que acabou de ser criado na raiz do projeto e preencha os campos com suas credenciais:
 
 ```env
 # Banco de dados
@@ -89,19 +111,31 @@ SECRET_KEY=troque-por-uma-chave-segura
 OPENAI_API_KEY=sk-...sua-chave-aqui...
 ```
 
-### 3. Suba os containers
+> Você pode manter os valores padrão de banco de dados para uso local — só é essencial trocar o `SECRET_KEY` e preencher o `OPENAI_API_KEY`.
+
+Salve o arquivo.
+
+**4. Suba os containers**
+
+De volta ao terminal, na raiz do projeto, rode:
 
 ```bash
 docker compose up --build
 ```
 
-### 4. Aplique as migrations do banco
+Esse comando vai baixar as imagens necessárias, construir o backend e o frontend, e subir os 3 containers (backend, frontend e banco de dados). A primeira execução pode levar alguns minutos.
+
+**5. Aplique as migrations do banco**
+
+Com os containers já rodando, abra um **novo terminal** (deixe o anterior rodando) e execute:
 
 ```bash
 docker compose exec backend alembic upgrade head
 ```
 
-### 5. Acesse a aplicação
+Isso cria as tabelas no banco de dados.
+
+**6. Acesse a aplicação**
 
 | Serviço | URL |
 |---|---|
@@ -109,7 +143,7 @@ docker compose exec backend alembic upgrade head
 | API (Swagger) | http://localhost:8000/docs |
 | API (health) | http://localhost:8000/api/v1/health |
 
----
+Pronto! A aplicação já deve estar rodando localmente. Para parar os containers, volte ao terminal onde rodou `docker compose up` e pressione `Ctrl + C`, ou rode `docker compose down` em outro terminal.
 
 ## Estrutura do projeto
 
@@ -143,11 +177,10 @@ weekly-planner/
         └── types/         # TypeScript types
 ```
 
----
-
 ## Endpoints principais
 
 ### Semanas
+
 | Método | Endpoint | Descrição |
 |---|---|---|
 | GET | `/api/v1/weeks/` | Lista todas as semanas |
@@ -157,6 +190,7 @@ weekly-planner/
 | POST | `/api/v1/weeks/{id}/duplicate` | Duplica semana para a próxima |
 
 ### Tarefas
+
 | Método | Endpoint | Descrição |
 |---|---|---|
 | POST | `/api/v1/weeks/{id}/tasks/` | Cria tarefa |
@@ -167,6 +201,7 @@ weekly-planner/
 | DELETE | `/api/v1/weeks/{id}/tasks/{tid}` | Remove tarefa |
 
 ### Dashboard, Insights e Histórico
+
 | Método | Endpoint | Descrição |
 |---|---|---|
 | GET | `/api/v1/dashboard/{week_id}` | Métricas da semana |
@@ -175,8 +210,6 @@ weekly-planner/
 | GET | `/api/v1/history/` | Histórico com filtros |
 
 A documentação completa e interativa está disponível em `/docs` (Swagger UI).
-
----
 
 ## Variáveis de ambiente
 
@@ -188,36 +221,6 @@ A documentação completa e interativa está disponível em `/docs` (Swagger UI)
 | `DATABASE_URL` | URL de conexão completa | Sim |
 | `SECRET_KEY` | Chave secreta da aplicação | Sim |
 | `OPENAI_API_KEY` | Chave da API da OpenAI | Para Insights |
-
----
-
-## Comandos úteis
-
-```bash
-# Ver logs do backend
-docker compose logs backend --tail=50
-
-# Ver logs em tempo real
-docker compose logs -f
-
-# Acessar o banco de dados
-docker compose exec db psql -U planner -d weekly_planner
-
-# Criar nova migration após alterar models
-docker compose exec backend alembic revision --autogenerate -m "descrição"
-
-# Aplicar migrations
-docker compose exec backend alembic upgrade head
-
-# Reverter última migration
-docker compose exec backend alembic downgrade -1
-
-# Reconstruir containers do zero
-docker compose down -v
-docker compose up --build
-```
-
----
 
 ## Modelo de dados
 
@@ -246,8 +249,6 @@ WeeklyAnalysis
 ├── next_steps[]
 └── generated_at
 ```
-
----
 
 ## Licença
 
