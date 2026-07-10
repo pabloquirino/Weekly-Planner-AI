@@ -6,7 +6,7 @@ from sqlalchemy import (
     DateTime, Date, ForeignKey, Enum, JSON
 )
 
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship, backref
 
 from app.core.database import Base
 
@@ -46,7 +46,6 @@ class Task(Base):
 
     week: Mapped["Week"] = relationship("Week", back_populates="tasks")
 
-    from sqlalchemy import JSON
 
 class WeeklyAnalysis(Base):
     __tablename__ = "weekly_analyses"
@@ -61,4 +60,4 @@ class WeeklyAnalysis(Base):
     next_steps: Mapped[list] = mapped_column(JSON, nullable=False, default=list)
     generated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
-    week: Mapped["Week"] = relationship("Week", backref="analysis")
+    week: Mapped["Week"] = relationship("Week", backref=backref("analysis", uselist=False))
