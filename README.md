@@ -15,17 +15,13 @@ O Weekly Planner AI não é um simples gerenciador de tarefas. É uma ferramenta
 
 ## Screenshots
 
-> *Adicione aqui prints da aplicação para dar contexto visual ao projeto.*
-
 | Dashboard | Weekly Insights |
 |---|---|
-| ![Dashboard](./docs/screenshots/dashboard.png) | ![Insights](./docs/screenshots/insights.png) |
+| ![Dashboard](./docs/screenshots/Dashboard.png) | ![Insights](./docs/screenshots/Insights.png) |
 
 | Planejamento semanal | Histórico |
 |---|---|
 | ![Planejamento](./docs/screenshots/planning.png) | ![Histórico](./docs/screenshots/history.png) |
-
-*(Salve as imagens em `docs/screenshots/` com esses nomes, ou ajuste os caminhos acima conforme os arquivos que você adicionar.)*
 
 ## Funcionalidades
 
