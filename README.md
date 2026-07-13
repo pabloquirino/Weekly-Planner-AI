@@ -71,7 +71,7 @@ Este projeto roda inteiramente em containers Docker, então você **não precisa
 Abra um terminal e rode:
 
 ```bash
-git clone https://github.com/SEU_USUARIO/weekly-planner.git
+git clone https://github.com/pabloquirino/weekly-planner.git
 cd weekly-planner
 ```
 
